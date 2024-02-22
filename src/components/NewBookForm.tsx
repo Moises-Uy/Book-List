@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { bookAction } from "../reducer/Bookact";
+import { BookContext } from "../contexts/BookReducer";
 
-interface Props {
-  addBook: (title: string, author: string) => void;
-}
-
-export const NewBookForm: React.FC<Props> = ({ addBook }) => {
+//Add Book
+export const NewBookForm: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [author, setAuthor] = useState<string>("");
+  const { bookDispatch } = useContext(BookContext);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addBook(title, ": " + author);
+    bookDispatch({
+      type: bookAction.ADD_BOOK,
+      book: { title, author },
+    });
     setTitle("");
     setAuthor("");
   };
